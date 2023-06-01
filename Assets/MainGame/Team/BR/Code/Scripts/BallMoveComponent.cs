@@ -1,11 +1,11 @@
 using Assets.MainGame.Team.BR.Code.Enumerations;
-using Assets.MainGame.Team.BR.Code.Interfaces;
 using UnityEngine;
 
 namespace Assets.MainGame.Team.BR.Code.Implemetations
 {
-    public class BallMovement : MonoBehaviour, IMovement
+    public class BallMoveComponent : MonoBehaviour
     {
+        [SerializeField]
         private Vector3 m_Direction;
 
         public Vector3 Direction
@@ -34,6 +34,11 @@ namespace Assets.MainGame.Team.BR.Code.Implemetations
                     if (m_Direction.x > 0) m_Direction.x *= -1;
                     break;
             }
+        }
+
+        public void Update()
+        {
+            transform.position += m_Direction * Time.deltaTime;
         }
     }
 }
