@@ -8,6 +8,9 @@ namespace Assets.MainGame.Team.BR.Code.Implemetations
         [SerializeField]
         private Vector3 m_Direction;
 
+        [SerializeField]
+        private float m_Speed;
+
         public Vector3 Direction
         {
             get => m_Direction;
@@ -38,7 +41,7 @@ namespace Assets.MainGame.Team.BR.Code.Implemetations
 
         public void Update()
         {
-            transform.position += m_Direction * Time.deltaTime;
+            transform.position += m_Direction * m_Speed * Time.deltaTime;
         }
     }
 }

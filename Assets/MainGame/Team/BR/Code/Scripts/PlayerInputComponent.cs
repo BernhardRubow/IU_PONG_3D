@@ -5,17 +5,21 @@ using Assets.MainGame.Team.BR.Code.Enumerations;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GetPlayerInputComponent : MonoBehaviour
+public class PlayerInputComponent : MonoBehaviour
 {
     [SerializeField]
-    PlayerLocations _mPlayerLocationLocation = PlayerLocations.Left;
-    
+    PlayerLocations 
+        m_PlayerLocationLocation = PlayerLocations.Left;
+
+    [SerializeField] 
+    private PlayerMoveComponent m_MoveComponent;
+
     Action m_Update;
 
     // Start is called before the first frame update
     void Start()
     {
-        switch (_mPlayerLocationLocation)
+        switch (m_PlayerLocationLocation)
         {
             case PlayerLocations.Left:
                 m_Update = GetLeftPlayerInput;
@@ -39,13 +43,13 @@ public class GetPlayerInputComponent : MonoBehaviour
 
     void GetLeftPlayerInput()
     {
-        if(Input.GetKey(KeyCode.W)) transform.position += Vector3.up * Time.deltaTime;
-        if(Input.GetKey(KeyCode.S)) transform.position += Vector3.down * Time.deltaTime;
+        if(Input.GetKey(KeyCode.W)) m_MoveComponent.MoveUp();
+        if(Input.GetKey(KeyCode.S)) m_MoveComponent.MoveDown();
     }
 
     void GetRightPlayerInput()
     {
-        if (Input.GetKey(KeyCode.I)) transform.position += Vector3.up * Time.deltaTime;
-        if (Input.GetKey(KeyCode.K)) transform.position += Vector3.down * Time.deltaTime;
+        if (Input.GetKey(KeyCode.I)) m_MoveComponent.MoveUp();
+        if (Input.GetKey(KeyCode.K)) m_MoveComponent.MoveDown();
     }
 }
