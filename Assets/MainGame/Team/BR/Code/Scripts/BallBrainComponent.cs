@@ -6,12 +6,12 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 {
     public class BallBrainComponent : MonoBehaviour
     {
-        private BallMoveComponent m_BallMoveComponentScript;
+        private BallMoveComponent m_BallMoveComponent;
 
         // Start is called before the first frame update
         void Start()
         {
-            m_BallMoveComponentScript = GetComponent<BallMoveComponent>();
+            m_BallMoveComponent = GetComponent<BallMoveComponent>();
         }
 
         // Update is called once per frame
@@ -22,14 +22,25 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
         void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.tag);
+            
             if (other.tag == "side-line")
             {
-                m_BallMoveComponentScript
+                Debug.Log(other.tag);
+                m_BallMoveComponent
                     .SwitchMoveDirection(
                         transform.position.y > 0 
                             ? MoveDirections.Down 
                             : MoveDirections.Up);
+            }
+            else if (other.tag == "paddle")
+            {
+                Debug.Log(other.tag);
+                Debug.Log(transform.position.x);
+                m_BallMoveComponent
+                    .SwitchMoveDirection(
+                        transform.position.x < 0 
+                        ? MoveDirections.Right
+                        : MoveDirections.Left);
             }
         }
     }

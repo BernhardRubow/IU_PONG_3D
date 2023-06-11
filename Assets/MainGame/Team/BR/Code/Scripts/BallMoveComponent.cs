@@ -11,6 +11,15 @@ namespace Assets.MainGame.Team.BR.Code.Implemetations
         [SerializeField]
         private float m_Speed;
 
+        [SerializeField]
+        private float m_AdditionalHitSpeed;
+
+        [SerializeField] 
+        private AnimationCurve m_BallHitSpeedFactor;
+
+        [SerializeField] private float m_AnimationTime = 3;
+        
+
         public Vector3 Direction
         {
             get => m_Direction;
@@ -22,26 +31,39 @@ namespace Assets.MainGame.Team.BR.Code.Implemetations
             switch (moveDirection)
             {
                 case MoveDirections.Up:
-                    if (m_Direction.y < 0) m_Direction.y *= -1;
+                    m_Direction.y *= -1;
                     break;
 
                 case MoveDirections.Down:
-                    if (m_Direction.y > 0) m_Direction.y *= -1;
+                    m_Direction.y *= -1;
                     break;
 
                 case MoveDirections.Left:
-                    if (m_Direction.x < 0) m_Direction.x *= -1;
+                    m_Direction.x *= -1;
+                    m_AnimationTime = 0f;
+                    
                     break;
 
                 case MoveDirections.Right:
-                    if (m_Direction.x > 0) m_Direction.x *= -1;
+                    m_Direction.x *= -1;
+                    m_AnimationTime = 0f;
                     break;
             }
         }
 
         public void Update()
         {
-            transform.position += m_Direction * m_Speed * Time.deltaTime;
+            if (m_AnimationTime < 2f)
+            {
+                m_AnimationTime += Time.deltaTime;
+                m_AdditionalHitSpeed = m_BallHitSpeedFactor.Evaluate(m_AnimationTime);
+            }
+
+            transform.position += 
+                m_Direction 
+                * m_Speed 
+                * m_AdditionalHitSpeed
+                * Time.deltaTime;
         }
     }
 }

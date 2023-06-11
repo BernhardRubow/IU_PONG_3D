@@ -7,6 +7,7 @@ TagManager:
   - side-line
   - ball
   - scoreboard-switch
+  - paddle
   layers:
   - Default
   - TransparentFX
