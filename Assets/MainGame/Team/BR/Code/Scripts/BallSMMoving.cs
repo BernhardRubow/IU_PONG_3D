@@ -1,103 +1,132 @@
-using System.Collections;
-using System.Collections.Generic;
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
 using UnityEngine;
 
-public class BallSMMoving : StateMachineBehaviour
+namespace Assets.MainGame.Team.BR.Code.Scripts
 {
-    [SerializeField]
-    private float m_Speed;
-
-    [SerializeField]
-    private float m_AdditionalHitSpeed;
-
-    [SerializeField]
-    private Vector3 m_MoveDirection;
-
-    [SerializeField]
-    private AnimationCurve m_BallHitSpeedFactor;
-    
-    [SerializeField] 
-    private float m_AnimationTime;
-
-    [SerializeField] private Vector3 pos;
-
-    private Transform m_Transform;
-
-    public void OnEnable()
+    public class BallSMMoving : StateMachineBehaviour
     {
-        //Debug.Log("OnEnable");
-        MessageBus.Subscribe<Message_SideLineHit>(OnSideLineHit);
-        MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
-    }
+        [SerializeField] private float m_Speed;
+        [SerializeField] private float m_AdditionalHitSpeed;
+        [SerializeField] private Vector3 m_MoveDirection;
+        [SerializeField] private AnimationCurve m_BallHitSpeedFactor;
+        [SerializeField] private float m_AnimationTime;
+        [SerializeField] private float m_AnimationTimeThreshold;
+        [SerializeField] private Vector3 pos;
+        [SerializeField] private int m_PaddleHits = 0;
+        [SerializeField] private float m_AccelerationFactor = 0.01f;
 
-    public void OnDisable()
-    {
-        //Debug.Log("OnDisable");
-        MessageBus.UnSubscribe<Message_SideLineHit>(OnSideLineHit);
-    }
+        private Transform m_Transform;
 
-    // +++ Eventhandler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    private void OnSideLineHit(object eventArgs)
-    {
-        m_MoveDirection.y *= -1f;
-    }
-
-    private void OnPaddleHit(object eventArgs)
-    {
-        m_MoveDirection.x *= -1f;
-        m_AnimationTime = 0;
-        m_MoveDirection.y = m_MoveDirection.y = Random.Range(-1f, 1f); ;
-    }
-
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        m_Transform = animator.transform;
-        pos = m_Transform.position;
-
-        m_MoveDirection = animator.transform.position.x < 0 
-            ? Vector3.right 
-            : Vector3.left;
-        m_MoveDirection.y = Random.Range(-1f, 1f);
-        m_AnimationTime = 0f;
-    }
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        if (m_AnimationTime < 2f)
+        // +++ Monobehavior Event functions +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        public void OnEnable()
         {
-            m_AnimationTime += Time.deltaTime;
-            m_AdditionalHitSpeed = m_BallHitSpeedFactor.Evaluate(m_AnimationTime);
+            //Debug.Log("OnEnable");
+            MessageBus.Subscribe<Message_SideLineHit>(OnSideLineHit);
+            MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
         }
 
-        pos +=
-            m_MoveDirection
-            * m_Speed
-            * m_AdditionalHitSpeed
-            * Time.deltaTime;
+        public void OnDisable()
+        {
+            //Debug.Log("OnDisable");
+            MessageBus.UnSubscribe<Message_SideLineHit>(OnSideLineHit);
+        }
 
-        m_Transform.position = pos;
+
+        // +++ StateMachineBehaviour Event functions ++++++++++++++++++++++++++++++++++++++++++++++++++
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            m_Transform = animator.transform;
+            pos = m_Transform.position;
+
+            m_MoveDirection = animator.transform.position.x < 0 
+                ? Vector3.right 
+                : Vector3.left;
+            m_MoveDirection.y = Random.Range(-1f, 1f);
+            m_AnimationTime = 0f;
+
+            m_AnimationTimeThreshold = Random.Range(2f, 3f);
+        }
+
+    
+        public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            CalculateAndApplyAccelerationAfterHit();
+
+            MoveBall();
+
+            CheckIfBallIsOutOfBounds();
+        }
+
+
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            m_PaddleHits = 0;
+        }
+
+
+        // +++ Custom Eventhandler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        private void OnSideLineHit(object eventArgs)
+        {
+            m_MoveDirection.y *= -1f;
+        }
+
+        private void OnPaddleHit(object eventArgs)
+        {
+            m_PaddleHits++;
+            m_MoveDirection.x *= -1f;
+            m_AnimationTime = 0;
+            m_MoveDirection.y = m_MoveDirection.y = Random.Range(-1f, 1f); ;
+            m_AnimationTimeThreshold = Random.Range(2f, 3f);
+
+            m_MoveDirection += m_MoveDirection.normalized * m_AccelerationFactor;
+
+
+        }
+
+
+        // +++ member +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        void CalculateAndApplyAccelerationAfterHit()
+        {
+            if (m_AnimationTime < m_AnimationTimeThreshold)
+            {
+                m_AnimationTime += Time.deltaTime;
+                m_AdditionalHitSpeed = m_BallHitSpeedFactor.Evaluate(m_AnimationTime);
+            }
+        }
+
+        private void MoveBall()
+        {
+            pos +=
+                m_MoveDirection
+                * m_Speed
+                * m_AdditionalHitSpeed
+                * Time.deltaTime;
+
+            m_Transform.position = pos;
+        }
+
+        private void CheckIfBallIsOutOfBounds()
+        {
+            var ballPositionX = m_Transform.position.x;
+
+            if (Mathf.Abs(ballPositionX) > 13)
+            {
+                var msg = new Message_PlayerScored{hits = m_PaddleHits};
+                if (ballPositionX < 0)
+                {
+                    // right player scored
+                    msg.player = 1;
+                }
+                else
+                {
+                    // left Player scored
+                    msg.player = -1;
+                }
+
+                MessageBus.Publish<Message_PlayerScored>(msg);
+            }
+        }
     }
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    //override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    
-    //}
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

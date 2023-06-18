@@ -11,14 +11,14 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
             
             if (other.tag == "side-line")
             {
-                Debug.Log(other.tag);
+                //Debug.Log(other.tag);
 
                 MessageBus.Publish(new Message_SideLineHit());
                 
             }
             else if (other.tag == "paddle")
             {
-                Debug.Log(other.tag);
+                //Debug.Log(other.tag);
 
                 MessageBus.Publish(new Message_PaddleHit());
                 
