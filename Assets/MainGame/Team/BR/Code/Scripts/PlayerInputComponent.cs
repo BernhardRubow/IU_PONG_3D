@@ -49,7 +49,7 @@ public class PlayerInputComponent : MonoBehaviour
 
     void GetRightPlayerInput()
     {
-        if (Input.GetKey(KeyCode.I)) m_MoveComponent.MoveUp();
-        if (Input.GetKey(KeyCode.K)) m_MoveComponent.MoveDown();
+        if (Input.GetKey(KeyCode.UpArrow)) m_MoveComponent.MoveUp();
+        if (Input.GetKey(KeyCode.DownArrow)) m_MoveComponent.MoveDown();
     }
 }

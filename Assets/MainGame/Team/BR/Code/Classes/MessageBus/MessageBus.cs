@@ -9,7 +9,7 @@ namespace Assets.MainGame.Team.BR.Code.Classes.MessageBus
         private static Dictionary<Type, List<Action<object>>> subscribers = new Dictionary<Type, List<Action<object>>>();
 
         // Method to subscribe to a message type
-        public static void Subscribe<T>(Action<T> callback)
+        public static void Subscribe<T>(Action<object> callback)
         {
             Type messageType = typeof(T);
 
@@ -20,10 +20,24 @@ namespace Assets.MainGame.Team.BR.Code.Classes.MessageBus
             }
 
             // Add the callback to the list of subscribers for the message type
-            subscribers[messageType].Add(obj => callback((T)obj));
+            subscribers[messageType].Add(callback);
+        }
+
+        public static void UnSubscribe<T>(Action<object> callback)
+        {
+            Type messageType = typeof(T);
+
+            if (subscribers.ContainsKey(messageType))
+            {
+                if (subscribers[messageType].Contains(callback))
+                {
+                    subscribers[messageType].Remove(callback);
+                }
+            }
         }
 
         // Method to publish a message
+
         public static void Publish<T>(T message)
         {
             Type messageType = typeof(T);

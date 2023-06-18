@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/MainGame/Team/BR/Scenes/Title.unity
     guid: e7a7523ad166eaf4db51d73674bc433b
   - enabled: 1
-    path: Assets/MainGame/Team/BR/Scenes/Main.unity
+    path: Assets/MainGame/Team/BR/Scenes/OnePlayerGame.unity
     guid: d01f93370becd5344b255251ef76346e
   m_configObjects: {}

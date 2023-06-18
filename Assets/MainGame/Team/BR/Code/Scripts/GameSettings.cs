@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-public static class GameSettings
+public class GameSettings
 {
-    public static int TypeOfGame = 0;
+    public static int TypeOfGame;
 }

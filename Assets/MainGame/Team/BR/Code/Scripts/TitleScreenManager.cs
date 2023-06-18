@@ -13,6 +13,7 @@ public class TitleScreenManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1)) GameSettings.TypeOfGame = 1;
         if (Input.GetKeyDown(KeyCode.Alpha2)) GameSettings.TypeOfGame = 2;
 
-        if(GameSettings.TypeOfGame != 0) SceneManager.LoadSceneAsync("Main");
+        if(GameSettings.TypeOfGame == 1) SceneManager.LoadSceneAsync("OnePlayerGame");
+        if(GameSettings.TypeOfGame == 2) SceneManager.LoadSceneAsync("TwoPlayerGame");
     }
 }
