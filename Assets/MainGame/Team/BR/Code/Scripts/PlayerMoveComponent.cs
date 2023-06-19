@@ -5,13 +5,17 @@ public class PlayerMoveComponent : MonoBehaviour
     [SerializeField]
     private float m_Speed;
 
+    [SerializeField] private float m_MaxMoveDistance;
+
     public void MoveUp()
     {
-        transform.position += Vector3.up * m_Speed * Time.deltaTime;
+        if (transform.position.y < m_MaxMoveDistance)
+            transform.position += Vector3.up * m_Speed * Time.deltaTime;
     }
 
     public void MoveDown()
     {
-        transform.position += Vector3.down * m_Speed * Time.deltaTime;
+        if (transform.position.y > -m_MaxMoveDistance)
+            transform.position += Vector3.down * m_Speed * Time.deltaTime;
     }
 }

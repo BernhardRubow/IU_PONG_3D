@@ -8,20 +8,18 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
     {
         void OnTriggerEnter(Collider other)
         {
-            
-            if (other.tag == "side-line")
-            {
-                //Debug.Log(other.tag);
+            var tag = other.tag;
+            //Debug.Log(tag);
 
-                MessageBus.Publish(new Message_SideLineHit());
-                
-            }
-            else if (other.tag == "paddle")
+            switch (tag)
             {
-                //Debug.Log(other.tag);
+                case "side-line":
+                    MessageBus.Publish(new Message_SideLineHit());
+                    break;
 
-                MessageBus.Publish(new Message_PaddleHit());
-                
+                case "paddle":
+                    MessageBus.Publish(new Message_PaddleHit());
+                    break;
             }
         }
     }

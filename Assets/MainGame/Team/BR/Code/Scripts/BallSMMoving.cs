@@ -1,4 +1,5 @@
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Assets.MainGame.Team.BR.Code.Scripts
@@ -35,6 +36,8 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
         // +++ StateMachineBehaviour Event functions ++++++++++++++++++++++++++++++++++++++++++++++++++
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            animator.SetBool("Served", false);
+
             m_Transform = animator.transform;
             pos = m_Transform.position;
 
@@ -54,7 +57,7 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
             MoveBall();
 
-            CheckIfBallIsOutOfBounds();
+            CheckIfBallIsOutOfBounds(animator);
         }
 
 
@@ -107,25 +110,27 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
             m_Transform.position = pos;
         }
 
-        private void CheckIfBallIsOutOfBounds()
+        private void CheckIfBallIsOutOfBounds(Animator ballStateMachine)
         {
-            var ballPositionX = m_Transform.position.x;
+            var ballPosition = m_Transform.position;
 
-            if (Mathf.Abs(ballPositionX) > 13)
+            if (Mathf.Abs(ballPosition.x) > 13)
             {
                 var msg = new Message_PlayerScored{hits = m_PaddleHits};
-                if (ballPositionX < 0)
+                if (ballPosition.x < 0)
                 {
                     // right player scored
-                    msg.player = 1;
+                    PongGameManager.Instance.m_ActivePlayer = 1;
                 }
                 else
                 {
                     // left Player scored
-                    msg.player = -1;
+                    PongGameManager.Instance.m_ActivePlayer = -1;
                 }
 
-                MessageBus.Publish<Message_PlayerScored>(msg);
+                ballStateMachine.SetBool("OutOfBounds", true);
+
+                MessageBus.Publish(msg);
             }
         }
     }
