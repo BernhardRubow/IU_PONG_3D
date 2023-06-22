@@ -15,6 +15,8 @@ public class BallSMServing : StateMachineBehaviour
     
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("OutOfBounds", false);
+
         Debug.Log("OnStateEnter");
         m_BallGameObject = animator.gameObject;
         m_Paddles = GameObject.FindGameObjectsWithTag("paddle");
