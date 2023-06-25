@@ -150,21 +150,18 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
             if (Mathf.Abs(ballPosition.x) > 13)
             {
-                var msg = new Message_PlayerScored{hits = m_PaddleHits};
-                if (ballPosition.x < 0)
+                // publish a message that a player scored
+                var messagePlayerScored = new Message_PlayerScored{hits = m_PaddleHits, ballPositionX = ballPosition.x};
+                MessageBus.Publish(messagePlayerScored);
+
+                // published a message that the active player changed
+                var messageActivePlayerChanged = new Message_ActivePlayerChanged
                 {
-                    // right player scored
-                    PongGameManager.Instance.m_ActivePlayer = 1;
-                }
-                else
-                {
-                    // left Player scored
-                    PongGameManager.Instance.m_ActivePlayer = -1;
-                }
+                    UpdatedActivePlayer = ballPosition.x < 0 ? 1 : -1
+                };
+                MessageBus.Publish(messageActivePlayerChanged);
 
                 ballStateMachine.SetBool("OutOfBounds", true);
-
-                MessageBus.Publish(msg);
             }
         }
     }

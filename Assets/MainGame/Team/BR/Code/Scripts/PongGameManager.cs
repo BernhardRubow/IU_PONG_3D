@@ -34,7 +34,7 @@ public class PongGameManager : MonoBehaviour
     }
 
 
-    // +++ Eventhandler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++ MessageBus Eventhandler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     private void OnActivePlayerChanged(object eventArgs)
     {
         Message_ActivePlayerChanged msg = (Message_ActivePlayerChanged)eventArgs;
