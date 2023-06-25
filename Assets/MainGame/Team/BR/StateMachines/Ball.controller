@@ -183,19 +183,19 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Served
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: OutOfBounds
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f38e6568fad289846a892965d8a1b333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_BallStartSpeed: 5
   m_Speed: 5
   m_AdditionalHitSpeed: 5
   m_MoveDirection: {x: 0, y: 0, z: 0}
@@ -256,8 +257,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 2.9911113
+      time: 0.00000047520734
+      value: 3.019981
       inSlope: 0.017647991
       outSlope: 0.017647991
       tangentMode: 0
@@ -267,8 +268,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.37721682
       value: 2.7894292
-      inSlope: -1.703968
-      outSlope: -1.703968
+      inSlope: -1.7422351
+      outSlope: -1.7422351
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_AnimationTime: 0
   m_AnimationTimeThreshold: 0
   pos: {x: 0, y: 0, z: 0}
+  m_HitTilBallDoubleSpeed: 20
   m_PaddleHits: 0
   m_AccelerationFactor: 0.075
 --- !u!114 &6077308636625688617
@@ -321,7 +323,7 @@ AnimatorStateMachine:
     m_Position: {x: 220, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1707402080406028895}
-    m_Position: {x: 220, y: 680, z: 0}
+    m_Position: {x: 220, y: 690, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4936118902610879841}
     m_Position: {x: 220, y: 900, z: 0}

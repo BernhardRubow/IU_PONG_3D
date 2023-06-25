@@ -6,6 +6,11 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 {
     public class BallSMMoving : StateMachineBehaviour
     {
+        [SerializeField] private float m_BallStartSpeed;
+
+        /// <summary>
+        /// The current Speed of the ball
+        /// </summary>
         [SerializeField] private float m_Speed;
         [SerializeField] private float m_AdditionalHitSpeed;
         [SerializeField] private Vector3 m_MoveDirection;
@@ -13,7 +18,18 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
         [SerializeField] private float m_AnimationTime;
         [SerializeField] private float m_AnimationTimeThreshold;
         [SerializeField] private Vector3 pos;
+        [SerializeField] private int m_HitTilBallDoubleSpeed;
+
+        /// <summary>
+        /// The paddle hit are counted in the game after a player
+        /// served. These determine the speed of the ball in the game.
+        /// </summary>
         [SerializeField] private int m_PaddleHits = 0;
+
+        /// <summary>
+        /// This value controls the initial intensity of the acceleration of the Ball
+        /// when it hits a paddle
+        /// </summary>
         [SerializeField] private float m_AccelerationFactor = 0.01f;
 
         private Transform m_Transform;
@@ -38,8 +54,14 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
         {
             animator.SetBool("Served", false);
 
+            // reset paddle hits, which are use to
+            // raise the ball speed in the game
+            m_PaddleHits = 0;
+
             m_Transform = animator.transform;
             pos = m_Transform.position;
+
+            m_Speed = m_BallStartSpeed;
 
             m_MoveDirection = animator.transform.position.x < 0 
                 ? Vector3.right 
@@ -63,7 +85,7 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            m_PaddleHits = 0;
+            
         }
 
 
@@ -76,15 +98,27 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
         private void OnPaddleHit(object eventArgs)
         {
-            m_PaddleHits++;
+            // store velocity of ball an normalize it as preparation
+            // for set random vertical speed after paddle hit
+            var moveDirectionMagnitude = m_MoveDirection.magnitude;
+            m_MoveDirection = m_MoveDirection.normalized;
+
+            // ball gets faster with erery paddle hit
+            var newSpeed = m_BallStartSpeed * ((m_PaddleHits / (float)m_HitTilBallDoubleSpeed) + 1f);
+            m_Speed = newSpeed;
+            Debug.Log(newSpeed);
+
             m_MoveDirection.x *= -1f;
-            m_AnimationTime = 0;
-            m_MoveDirection.y = m_MoveDirection.y = Random.Range(-1f, 1f); ;
+            m_MoveDirection.y = m_MoveDirection.y = Random.Range(-1f, 1f);
+            m_MoveDirection += m_MoveDirection * moveDirectionMagnitude * m_AccelerationFactor;
+
+            // the ball gets faster after a paddle hit
+            // for a certain time
+            m_AnimationTime = 0; ;
             m_AnimationTimeThreshold = Random.Range(2f, 3f);
 
-            m_MoveDirection += m_MoveDirection.normalized * m_AccelerationFactor;
-
-
+            // count paddle hits
+            m_PaddleHits++;
         }
 
 
