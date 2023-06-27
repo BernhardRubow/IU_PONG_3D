@@ -4,7 +4,7 @@ using Assets.MainGame.Team.BR.Code.Classes.MessageBus;using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class CameraSoundFxController : MonoBehaviour
+public class Controller_SoundEffects : MonoBehaviour
 {
     [SerializeField] private AudioClip[] m_BounceSounds;
     [SerializeField] private AudioSource m_AudioSource;

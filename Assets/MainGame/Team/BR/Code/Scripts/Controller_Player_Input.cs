@@ -5,14 +5,14 @@ using Assets.MainGame.Team.BR.Code.Enumerations;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerInputComponent : MonoBehaviour
+public class Controller_Player_Input : MonoBehaviour
 {
     [SerializeField]
     PlayerLocations 
         m_PlayerLocationLocation = PlayerLocations.Left;
 
     [SerializeField] 
-    private PlayerMoveComponent m_MoveComponent;
+    private Controller_Paddle_Movement m_MoveComponent;
 
     Action m_Update;
 

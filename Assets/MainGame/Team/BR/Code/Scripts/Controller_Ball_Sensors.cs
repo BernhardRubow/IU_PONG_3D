@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.MainGame.Team.BR.Code.Scripts
 {
-    public class BallSensors : MonoBehaviour
+    public class Controller_Ball_Sensors : MonoBehaviour
     {
         void OnTriggerEnter(Collider other)
         {

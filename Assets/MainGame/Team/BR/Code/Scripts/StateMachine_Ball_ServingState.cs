@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class BallSMServing : StateMachineBehaviour
+public class StateMachine_Ball_ServingState : StateMachineBehaviour
 {
     [SerializeField] private int m_ActivePlayer;
     [SerializeField] private GameObject[] m_Paddles;
@@ -21,7 +21,7 @@ public class BallSMServing : StateMachineBehaviour
         m_BallGameObject = animator.gameObject;
         m_Paddles = GameObject.FindGameObjectsWithTag("paddle");
 
-            m_ServingPaddleTransform = PongGameManager.Instance.m_ActivePlayer == -1
+            m_ServingPaddleTransform = Manager_Game_Pong.Instance.m_ActivePlayer == -1
             ? m_Paddles.Single(x => x.transform.position.x < 0).transform 
             : m_Paddles.Single(x => x.transform.position.x > 0).transform;
     }
@@ -32,7 +32,7 @@ public class BallSMServing : StateMachineBehaviour
         if(Input.GetKeyDown(KeyCode.Space)) animator.SetBool("Served", true);
 
         m_BallGameObject.transform.position = m_ServingPaddleTransform.position -
-                                              m_BallServingOffset * PongGameManager.Instance.m_ActivePlayer ;
+                                              m_BallServingOffset * Manager_Game_Pong.Instance.m_ActivePlayer ;
 
     }
 

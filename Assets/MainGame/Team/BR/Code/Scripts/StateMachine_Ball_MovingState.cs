@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Assets.MainGame.Team.BR.Code.Scripts
 {
-    public class BallSMMoving : StateMachineBehaviour
+    public class StateMachine_Ball_MovingState : StateMachineBehaviour
     {
         [SerializeField] private float m_BallStartSpeed;
 

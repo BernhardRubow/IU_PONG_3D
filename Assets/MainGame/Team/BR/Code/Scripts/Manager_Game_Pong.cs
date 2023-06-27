@@ -4,9 +4,9 @@ using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
 using UnityEditor.VersionControl;
 using UnityEngine;
 
-public class PongGameManager : MonoBehaviour
+public class Manager_Game_Pong : MonoBehaviour
 {
-    public static PongGameManager Instance;
+    public static Manager_Game_Pong Instance;
     public int m_ActivePlayer;
 
     // +++ Unity event functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

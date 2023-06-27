@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
 using UnityEngine;
 
-public class BallSMInitialization : StateMachineBehaviour
+public class StateMachine_Ball_InitializationState : StateMachineBehaviour
 {
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
