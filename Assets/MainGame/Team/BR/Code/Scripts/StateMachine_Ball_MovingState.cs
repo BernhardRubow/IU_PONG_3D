@@ -1,4 +1,5 @@
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
+using Assets.MainGame.Team.BR.Code.Enumerations;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -37,21 +38,22 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
         // +++ Monobehavior Event functions +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         public void OnEnable()
         {
-            //Debug.Log("OnEnable");
-            MessageBus.Subscribe<Message_SideLineHit>(OnSideLineHit);
-            MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
+            
         }
 
         public void OnDisable()
         {
-            //Debug.Log("OnDisable");
-            MessageBus.UnSubscribe<Message_SideLineHit>(OnSideLineHit);
+            
         }
 
 
         // +++ StateMachineBehaviour Event functions ++++++++++++++++++++++++++++++++++++++++++++++++++
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
+            //Debug.Log("OnEnable");
+            MessageBus.Subscribe<Message_SideLineHit>(OnSideLineHit);
+            MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
+
             animator.SetBool("Served", false);
 
             // reset paddle hits, which are use to
@@ -85,7 +87,9 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
 
         public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            
+            //Debug.Log("OnDisable");
+            MessageBus.UnSubscribe<Message_SideLineHit>(OnSideLineHit);
+            MessageBus.UnSubscribe<Message_PaddleHit>(OnPaddleHit);
         }
 
 
@@ -103,11 +107,11 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
             var moveDirectionMagnitude = m_MoveDirection.magnitude;
             m_MoveDirection = m_MoveDirection.normalized;
 
-            // ball gets faster with erery paddle hit
+            // ball gets faster with every paddle hit
             var newSpeed = m_BallStartSpeed * ((m_PaddleHits / (float)m_HitTilBallDoubleSpeed) + 1f);
             m_Speed = newSpeed;
-            Debug.Log(newSpeed);
 
+            // caluate random direction after paddle hit
             m_MoveDirection.x *= -1f;
             m_MoveDirection.y = m_MoveDirection.y = Random.Range(-1f, 1f);
             m_MoveDirection += m_MoveDirection * moveDirectionMagnitude * m_AccelerationFactor;
@@ -144,25 +148,28 @@ namespace Assets.MainGame.Team.BR.Code.Scripts
             m_Transform.position = pos;
         }
 
-        private void CheckIfBallIsOutOfBounds(Animator ballStateMachine)
+        private void CheckIfBallIsOutOfBounds(Animator animator)
         {
             var ballPosition = m_Transform.position;
 
             if (Mathf.Abs(ballPosition.x) > 13)
             {
                 // publish a message that a player scored
-                var messagePlayerScored = new Message_PlayerScored{hits = m_PaddleHits, ballPositionX = ballPosition.x};
+                var messagePlayerScored = new Message_PlayerScored { hits = m_PaddleHits, ballPositionX = ballPosition.x };
                 MessageBus.Publish(messagePlayerScored);
+                m_PaddleHits = 0;
 
                 // published a message that the active player changed
                 var messageActivePlayerChanged = new Message_ActivePlayerChanged
                 {
-                    UpdatedActivePlayer = ballPosition.x < 0 ? 1 : -1
+                    UpdatedActivePlayer = ballPosition.x < 0 ? PlayerLocations.Right : PlayerLocations.Left
                 };
                 MessageBus.Publish(messageActivePlayerChanged);
 
-                ballStateMachine.SetBool("OutOfBounds", true);
+                animator.SetBool("OutOfBounds", true);
             }
         }
+
+
     }
 }

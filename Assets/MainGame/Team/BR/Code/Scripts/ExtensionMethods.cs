@@ -14,4 +14,9 @@ public static class ExtensionMethods
         if (x < 0) return PlayerLocations.Left;
         return PlayerLocations.Right;
     }
+
+    public static PlayerLocations WhichPlayer(this Transform t)
+    {
+        return t.position.x < 0 ? PlayerLocations.Left : PlayerLocations.Right;
+    }
 }

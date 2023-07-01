@@ -2,8 +2,8 @@ using Assets.MainGame.Team.BR.Code.Enumerations;
 
 namespace Assets.MainGame.Team.BR.Code.Classes.MessageBus
 {
-    public struct Message_ActivePlayerChanged
+    public struct Message_BallServing
     {
-        public PlayerLocations UpdatedActivePlayer;
+        public PlayerLocations Player;
     }
 }

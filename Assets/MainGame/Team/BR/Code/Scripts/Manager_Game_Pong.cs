@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
+using Assets.MainGame.Team.BR.Code.Enumerations;
 using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class Manager_Game_Pong : MonoBehaviour
 {
     public static Manager_Game_Pong Instance;
-    public int m_ActivePlayer;
+    public PlayerLocations m_ActivePlayer;
 
     // +++ Unity event functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -20,7 +21,10 @@ public class Manager_Game_Pong : MonoBehaviour
         else
         {
             Instance = this;
+            m_ActivePlayer = Random.Range(0, 1) == 0 ? PlayerLocations.Left : PlayerLocations.Right;
         }
+
+
     }
 
     void OnEnable()
