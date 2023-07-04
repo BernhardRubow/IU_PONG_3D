@@ -50,7 +50,7 @@ public class Controller_Displays : MonoBehaviour
     {
         m_CenterLine.SetActive(true);
         m_ServingStateDisplay.enabled = false;
-        m_RallyCount = 0;
+        m_RallyCount = 1;
         UpdateRallyCountDisplay();
     }
 
