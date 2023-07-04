@@ -10,6 +10,8 @@ public class Controller_Displays : MonoBehaviour
     // +++ fields +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     [SerializeField] private TextMeshProUGUI m_ServingStateDisplay;
     [SerializeField] private GameObject m_CenterLine;
+    [SerializeField] private TextMeshProUGUI m_RallyCountDisplay;
+    [SerializeField] private int m_RallyCount;
 
 
     // +++ Unity event handler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -17,15 +19,24 @@ public class Controller_Displays : MonoBehaviour
     {
         MessageBus.Subscribe<Message_BallServing>(OnBallServing);
         MessageBus.Subscribe<Message_BallServed>(OnBallServed);
+        MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
+        
     }
 
     void OnDisable()
     {
         MessageBus.UnSubscribe<Message_BallServing>(OnBallServing);
         MessageBus.UnSubscribe<Message_BallServed>(OnBallServed);
+        MessageBus.UnSubscribe<Message_PaddleHit>(OnPaddleHit);
     }
 
+
     // +++ custom event handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void OnPaddleHit(object obj)
+    {
+        m_RallyCount++;
+        UpdateRallyCountDisplay();
+    }
 
     private void OnBallServing(object eventArgs)
     {
@@ -39,5 +50,20 @@ public class Controller_Displays : MonoBehaviour
     {
         m_CenterLine.SetActive(true);
         m_ServingStateDisplay.enabled = false;
+        m_RallyCount = 0;
+        UpdateRallyCountDisplay();
+    }
+
+
+    // +++ member +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    private string GetRallyCountText()
+    {
+        return m_RallyCount.ToString("000");
+    }
+
+    private void UpdateRallyCountDisplay()
+    {
+        m_RallyCountDisplay.text = GetRallyCountText();
     }
 }
