@@ -499,7 +499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125a93f134e3ce2419306ebf75cc3f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_BounceSounds:
+  m_PaddleBounceSounds:
+  - {fileID: 8300000, guid: b22c5fa369b5fba459298d667328e1ac, type: 3}
+  m_LineBounceSounds:
   - {fileID: 8300000, guid: 1a1abd3aae0673346b83dad3ac91b0a0, type: 3}
   m_AudioSource: {fileID: 0}
 --- !u!1 &333488044
