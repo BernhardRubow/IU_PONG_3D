@@ -14,27 +14,14 @@ public class Manager_Screen_TitleScreen : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Controller_GlobalGameManager.Instance.m_TypeOfGame = GameTypes.OnePlayerGame;
-            SceneManager.LoadScene("OnePlayerGame");
-
-            MessageBus.Subscribe<Message_GameOver>(OnGameOverOnePlayerGame);
-
+            MessageBus.Publish(new Message_NewGameStarted{GameType = GameTypes.OnePlayerGame});
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            Controller_GlobalGameManager.Instance.m_TypeOfGame = GameTypes.TwoPlayerGame;
-            SceneManager.LoadScene("TwoPlayerGame");
+            MessageBus.Publish(new Message_NewGameStarted { GameType = GameTypes.TwoPlayerGame });
         }
     }
 
-    // +++ Custom Event Handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    private void OnGameOverOnePlayerGame(object eventArgs)
-    {
-        MessageBus.UnSubscribe<Message_GameOver>(OnGameOverOnePlayerGame);
-
-        var ea = (Message_GameOver)eventArgs;
-        if (ea.WinnigPlayer == PlayerLocations.Left) SceneManager.LoadScene("PlayerOneWins");
-        if (ea.WinnigPlayer == PlayerLocations.Right) SceneManager.LoadScene("PlayerTwoWins");
-    }
+   
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Controller_SoundEffects : MonoBehaviour
 {
+    [SerializeField] private AudioClip[] m_PlayerScoredSounds;
     [SerializeField] private AudioClip[] m_PaddleBounceSounds;
     [SerializeField] private AudioClip[] m_LineBounceSounds;
     [SerializeField] private AudioSource m_AudioSource;
@@ -20,25 +21,36 @@ public class Controller_SoundEffects : MonoBehaviour
     {
         MessageBus.Subscribe<Message_PaddleHit>(OnPaddleHit);
         MessageBus.Subscribe<Message_SideLineHit>(OnSideLineHit);
+        MessageBus.Subscribe<Message_PlayerScored>(OnPlayerScored);
     }
 
     void OnDisable()
     {
         MessageBus.UnSubscribe<Message_PaddleHit>(OnPaddleHit);
         MessageBus.UnSubscribe<Message_SideLineHit>(OnSideLineHit);
+        MessageBus.UnSubscribe<Message_PlayerScored>(OnPlayerScored);
     }
 
 
     // +++ custom event handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void OnPlayerScored(object obj)
+    {
+        PlayRandomClip(m_PlayerScoredSounds);
+    }
+
     private void OnSideLineHit(object obj)
     {
-        var clipToPlay = m_LineBounceSounds.GetRandom();
-        m_AudioSource.PlayOneShot(clipToPlay);
+        PlayRandomClip(m_LineBounceSounds);
     }
 
     private void OnPaddleHit(object eventArgs)
     {
-        var clipToPlay = m_PaddleBounceSounds.GetRandom();
+        PlayRandomClip(m_PaddleBounceSounds);
+    }
+
+    private void PlayRandomClip(AudioClip[] clipsToPlayFrom)
+    {
+        var clipToPlay = clipsToPlayFrom.GetRandom();
         m_AudioSource.PlayOneShot(clipToPlay);
     }
 }
