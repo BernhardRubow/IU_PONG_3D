@@ -29,7 +29,7 @@ public class Controller_ScoreBoard : MonoBehaviour
         // Get the winning score from the Game Manager
         m_WinningScore = Controller_OnePlayerGame.Instance.m_WinningScore;
 
-        m_ScoreDisplayText = GetComponent<TextMeshProUGUI>();
+        
     }
 
     // +++ messagebus event handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
