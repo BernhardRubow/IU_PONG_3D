@@ -9,6 +9,7 @@ public class Manager_Game_Pong : MonoBehaviour
 {
     public static Manager_Game_Pong Instance;
     public PlayerLocations m_ActivePlayer;
+    public int m_WinningScore = 15;
 
     // +++ Unity event functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 

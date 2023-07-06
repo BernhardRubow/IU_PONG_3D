@@ -815,6 +815,7 @@ GameObject:
   - component: {fileID: 726451705}
   - component: {fileID: 726451704}
   - component: {fileID: 726451703}
+  - component: {fileID: 726451706}
   m_Layer: 0
   m_Name: Scoreboard_UI
   m_TagString: Untagged
@@ -904,6 +905,22 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &726451706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 726451701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa0ba3b73248db247bc328746bc5b3de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_WinningScore: 0
+  m_PlayerLeftScore: 0
+  m_PlayerRightScore: 0
+  m_ScoreDisplayText: {fileID: 1459535650}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1210,7 +1227,6 @@ GameObject:
   - component: {fileID: 1459535649}
   - component: {fileID: 1459535651}
   - component: {fileID: 1459535650}
-  - component: {fileID: 1459535652}
   m_Layer: 0
   m_Name: Socrebord_Displays
   m_TagString: Untagged
@@ -1336,22 +1352,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459535648}
   m_CullTransparentMesh: 1
---- !u!114 &1459535652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459535648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa0ba3b73248db247bc328746bc5b3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_WinningScore: 15
-  m_PlayerLeftScore: 0
-  m_PlayerRightScore: 0
-  m_ScoreDisplayText: {fileID: 0}
 --- !u!1 &1590594775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ActivePlayer: 0
+  m_WinningScore: 15
 --- !u!1 &1747053018
 GameObject:
   m_ObjectHideFlags: 0

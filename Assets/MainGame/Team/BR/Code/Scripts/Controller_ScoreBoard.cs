@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Controller_ScoreBoard : MonoBehaviour
 {
-    [SerializeField] private int m_WinningScore = 15;
+    [SerializeField] private int m_WinningScore = 0;
     [SerializeField] private int m_PlayerLeftScore = 0;
     [SerializeField] private int m_PlayerRightScore = 0;
     [SerializeField] private TextMeshProUGUI m_ScoreDisplayText;
@@ -26,6 +26,9 @@ public class Controller_ScoreBoard : MonoBehaviour
 
     private void Start()
     {
+        // Get the winning score from the Game Manager
+        m_WinningScore = Manager_Game_Pong.Instance.m_WinningScore;
+
         m_ScoreDisplayText = GetComponent<TextMeshProUGUI>();
     }
 
