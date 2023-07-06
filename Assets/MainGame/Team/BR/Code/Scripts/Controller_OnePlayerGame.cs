@@ -5,9 +5,9 @@ using Assets.MainGame.Team.BR.Code.Enumerations;
 using UnityEditor.VersionControl;
 using UnityEngine;
 
-public class Manager_Game_Pong : MonoBehaviour
+public class Controller_OnePlayerGame : MonoBehaviour
 {
-    public static Manager_Game_Pong Instance;
+    public static Controller_OnePlayerGame Instance;
     public PlayerLocations m_ActivePlayer;
     public int m_WinningScore = 15;
 

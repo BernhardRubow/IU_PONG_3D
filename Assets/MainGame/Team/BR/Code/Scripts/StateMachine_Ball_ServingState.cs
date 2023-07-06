@@ -25,13 +25,13 @@ public class StateMachine_Ball_ServingState : StateMachineBehaviour
         m_BallGameObject = animator.gameObject;
         m_Paddles = GameObject.FindGameObjectsWithTag("paddle");
 
-        m_ServingPaddleTransform = Manager_Game_Pong.Instance.m_ActivePlayer == PlayerLocations.Left
+        m_ServingPaddleTransform = Controller_OnePlayerGame.Instance.m_ActivePlayer == PlayerLocations.Left
         ? m_Paddles.Single(x => x.transform.position.x < 0).transform
         : m_Paddles.Single(x => x.transform.position.x > 0).transform;
 
         m_OffsetFactor = Math.Sign(m_ServingPaddleTransform.position.x);
 
-        MessageBus.Publish(new Message_BallServing { Player = Manager_Game_Pong.Instance.m_ActivePlayer });
+        MessageBus.Publish(new Message_BallServing { Player = Controller_OnePlayerGame.Instance.m_ActivePlayer });
     }
 
 
