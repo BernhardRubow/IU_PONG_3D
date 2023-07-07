@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ActivePlayer: 0
-  m_WinningScore: 15
+  m_WinningScore: 1
 --- !u!1 &1747053018
 GameObject:
   m_ObjectHideFlags: 0

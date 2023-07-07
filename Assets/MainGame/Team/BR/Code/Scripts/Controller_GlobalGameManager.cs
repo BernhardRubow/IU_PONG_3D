@@ -7,9 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class Controller_GlobalGameManager : MonoBehaviour
 {
+    // Singleton
     public static Controller_GlobalGameManager Instance;
 
-    
+    [SerializeField] private AudioSource m_BackgroundMusicAudioSource;
+    [SerializeField] private AudioSource m_ApplauseAudioSource;
+
+    public int m_WinningScore = 15;
+
 
     // +++ Unity Event Handler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Awake()
@@ -41,6 +46,10 @@ public class Controller_GlobalGameManager : MonoBehaviour
 
     private void OnNewGameStarted(object eventArgs)
     {
+        m_ApplauseAudioSource.Stop();
+        var backgroundMusicPlaying = m_BackgroundMusicAudioSource.isPlaying;
+        if(!backgroundMusicPlaying) m_BackgroundMusicAudioSource.Play(); 
+
         var ea = (Message_NewGameStarted)eventArgs;
         if (ea.GameType == GameTypes.OnePlayerGame)
         {
@@ -54,6 +63,9 @@ public class Controller_GlobalGameManager : MonoBehaviour
 
     private void OnGameOver(object eventArgs)
     {
+        m_BackgroundMusicAudioSource.Stop();
+        m_ApplauseAudioSource.Play();
+
         var ea = (Message_GameOver)eventArgs;
         if (ea.WinnigPlayer == PlayerLocations.Left) SceneManager.LoadScene("PlayerOneWins");
         if (ea.WinnigPlayer == PlayerLocations.Right) SceneManager.LoadScene("PlayerTwoWins");

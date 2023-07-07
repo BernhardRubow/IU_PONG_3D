@@ -26,7 +26,7 @@ public class Controller_ScoreBoard : MonoBehaviour
     private void Start()
     {
         // Get the winning score from the Game Manager
-        m_WinningScore = Controller_OnePlayerGame.Instance.m_WinningScore;
+        m_WinningScore = Controller_GlobalGameManager.Instance.m_WinningScore;
     }
 
     // +++ messagebus event handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -54,7 +54,7 @@ public class Controller_ScoreBoard : MonoBehaviour
 
         if (m_PlayerRightScore == m_WinningScore)
         {
-            MessageBus.Publish<Message_GameOver>(new Message_GameOver { WinnigPlayer = PlayerLocations.Left });
+            MessageBus.Publish<Message_GameOver>(new Message_GameOver { WinnigPlayer = PlayerLocations.Right });
         }
     }
 }

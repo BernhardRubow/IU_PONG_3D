@@ -8,7 +8,7 @@ public class Controller_OnePlayerGame : MonoBehaviour
 {
     public static Controller_OnePlayerGame Instance;
     public PlayerLocations m_ActivePlayer;
-    public int m_WinningScore = 15;
+    
 
     // +++ Unity event functions ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -30,13 +30,13 @@ public class Controller_OnePlayerGame : MonoBehaviour
     void OnEnable()
     {
         MessageBus.Subscribe<Message_ActivePlayerChanged>(OnActivePlayerChanged);
-        MessageBus.Subscribe<Message_GameOver>(OnGameOver);
+        
     }
 
     void OnDisable()
     {
         MessageBus.UnSubscribe<Message_ActivePlayerChanged>(OnActivePlayerChanged);
-        MessageBus.UnSubscribe<Message_GameOver>(OnGameOver);
+        
     }
 
 
@@ -49,9 +49,5 @@ public class Controller_OnePlayerGame : MonoBehaviour
         m_ActivePlayer = msg.UpdatedActivePlayer;
     }
 
-    private void OnGameOver(object obj)
-    {
-        // ToDo : Implement Game Over
-        throw new System.NotImplementedException();
-    }
+   
 }
