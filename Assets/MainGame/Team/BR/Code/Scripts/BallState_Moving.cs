@@ -160,11 +160,15 @@ public class BallState_Moving : MonoBehaviour
             m_PaddleHits = 0;
 
             // published a message that the active player changed
-            var messageActivePlayerChanged = new Message_ActivePlayerChanged
+            var Message_ActivePlayerChanged = new Message_ActivePlayerChanged
             {
                 UpdatedActivePlayer = ballPosition.x < 0 ? PlayerLocations.Right : PlayerLocations.Left
             };
-            MessageBus.Publish(messageActivePlayerChanged);
+            MessageBus.Publish(Message_ActivePlayerChanged);
+
+            var nextState = this.GetComponent<BallState_Serving>();
+            this.enabled = false;
+            nextState.enabled = true;
         }
     }
 }

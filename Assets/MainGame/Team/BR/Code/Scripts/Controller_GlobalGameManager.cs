@@ -38,16 +38,24 @@ public class Controller_GlobalGameManager : MonoBehaviour
     {
         MessageBus.Subscribe<Message_NewGameStarted>(OnNewGameStarted);
         MessageBus.Subscribe<Message_PlayerScored>(OnPlayerScored);
+        MessageBus.Subscribe<Message_ActivePlayerChanged>(OnActivePlayerChanged);
     }
 
     void OnDisable()
     {
         MessageBus.UnSubscribe<Message_NewGameStarted>(OnNewGameStarted);
         MessageBus.UnSubscribe<Message_PlayerScored>(OnPlayerScored);
+        MessageBus.UnSubscribe<Message_ActivePlayerChanged>(OnActivePlayerChanged);
     }
 
 
     // +++ Custom Event Handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void OnActivePlayerChanged(object obj)
+    {
+        var ea = (Message_ActivePlayerChanged)obj;
+        m_ActivePlayer = ea.UpdatedActivePlayer;
+    }
+
     private void OnPlayerScored(object eventArgs)
     {
         var ea = (Message_PlayerScored)eventArgs;
@@ -97,8 +105,13 @@ public class Controller_GlobalGameManager : MonoBehaviour
         m_LeftPlayerScore = 0;
         m_RightPlayerScore = 0;
 
+        SwitchActivePlayer();
+    }
+
+    private void SwitchActivePlayer()
+    {
         m_ActivePlayer = m_ActivePlayer == PlayerLocations.Left
-            ?  PlayerLocations.Right
-            :  PlayerLocations.Left;
+            ? PlayerLocations.Right
+            : PlayerLocations.Left;
     }
 }
