@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/MainGame/Team/BR/Scenes/OnePlayerGame.unity
     guid: d01f93370becd5344b255251ef76346e
   - enabled: 1
+    path: Assets/MainGame/Team/BR/Scenes/TwoPlayerGame.unity
+    guid: 7c4ffa2b1be8a1d42a225697e33121e8
+  - enabled: 1
     path: Assets/MainGame/Team/BR/Scenes/PlayerOneWins.unity
     guid: e4b1644c02447624b8425b7d6a742661
   - enabled: 1
