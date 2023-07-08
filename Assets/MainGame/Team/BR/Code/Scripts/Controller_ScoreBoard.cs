@@ -23,11 +23,7 @@ public class Controller_ScoreBoard : MonoBehaviour
         MessageBus.UnSubscribe<Message_PlayerScored>(OnPlayerScored);
     }
 
-    private void Start()
-    {
-        // Get the winning score from the Game Manager
-        m_WinningScore = Controller_GlobalGameManager.Instance.m_WinningScore;
-    }
+   
 
     // +++ messagebus event handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     private void OnPlayerScored(object eventArgs)
@@ -46,15 +42,5 @@ public class Controller_ScoreBoard : MonoBehaviour
         }
 
         m_ScoreDisplayText.text = $"{m_PlayerLeftScore:00} : {m_PlayerRightScore:00}";
-
-        if (m_PlayerLeftScore == m_WinningScore)
-        {
-            MessageBus.Publish<Message_GameOver>(new Message_GameOver{WinnigPlayer = PlayerLocations.Left});
-        }
-
-        if (m_PlayerRightScore == m_WinningScore)
-        {
-            MessageBus.Publish<Message_GameOver>(new Message_GameOver { WinnigPlayer = PlayerLocations.Right });
-        }
     }
 }

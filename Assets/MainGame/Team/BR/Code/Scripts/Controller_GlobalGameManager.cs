@@ -9,14 +9,16 @@ public class Controller_GlobalGameManager : MonoBehaviour
 {
     // Singleton
     public static Controller_GlobalGameManager Instance;
-
+    [SerializeField] private int m_LeftPlayerScore;
+    [SerializeField] private int m_RightPlayerScore;
     [SerializeField] private AudioSource m_BackgroundMusicAudioSource;
     [SerializeField] private AudioSource m_ApplauseAudioSource;
 
     public int m_WinningScore = 15;
+    public PlayerLocations m_ActivePlayer = PlayerLocations.None;
 
 
-    // +++ Unity Event Handler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // +++ SUnity Event Handler ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,23 +28,50 @@ public class Controller_GlobalGameManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            m_ActivePlayer = Random.Range(0, 1) == 0 ? PlayerLocations.Left : PlayerLocations.Right;
         }
-        DontDestroyOnLoad(this.gameObject);
+        
     }
 
     void OnEnable()
     {
         MessageBus.Subscribe<Message_NewGameStarted>(OnNewGameStarted);
-        MessageBus.Subscribe<Message_GameOver>(OnGameOver);
+        MessageBus.Subscribe<Message_PlayerScored>(OnPlayerScored);
     }
 
     void OnDisable()
     {
         MessageBus.UnSubscribe<Message_NewGameStarted>(OnNewGameStarted);
-        MessageBus.UnSubscribe<Message_GameOver>(OnGameOver);
+        MessageBus.UnSubscribe<Message_PlayerScored>(OnPlayerScored);
     }
 
+
     // +++ Custom Event Handler +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void OnPlayerScored(object eventArgs)
+    {
+        var ea = (Message_PlayerScored)eventArgs;
+        if (ea.ballPositionX < 0)
+        {
+            m_RightPlayerScore++;
+        } 
+        else
+        {
+            m_LeftPlayerScore++;
+        }
+
+        if (m_RightPlayerScore == m_WinningScore || m_LeftPlayerScore == m_WinningScore)
+        {
+            m_BackgroundMusicAudioSource.Stop();
+            m_ApplauseAudioSource.Play();
+            if( m_RightPlayerScore == m_WinningScore) SceneManager.LoadScene("PlayerTwoWins");
+            if( m_LeftPlayerScore == m_WinningScore) SceneManager.LoadScene("PlayerOneWins");
+
+            ResetSettingForNewGame();
+        }
+
+        
+    }
 
     private void OnNewGameStarted(object eventArgs)
     {
@@ -61,13 +90,15 @@ public class Controller_GlobalGameManager : MonoBehaviour
         }
     }
 
-    private void OnGameOver(object eventArgs)
+    // +++ Member +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    private void ResetSettingForNewGame()
     {
-        m_BackgroundMusicAudioSource.Stop();
-        m_ApplauseAudioSource.Play();
+        // Reset settings
+        m_LeftPlayerScore = 0;
+        m_RightPlayerScore = 0;
 
-        var ea = (Message_GameOver)eventArgs;
-        if (ea.WinnigPlayer == PlayerLocations.Left) SceneManager.LoadScene("PlayerOneWins");
-        if (ea.WinnigPlayer == PlayerLocations.Right) SceneManager.LoadScene("PlayerTwoWins");
+        m_ActivePlayer = m_ActivePlayer == PlayerLocations.Left
+            ?  PlayerLocations.Right
+            :  PlayerLocations.Left;
     }
 }

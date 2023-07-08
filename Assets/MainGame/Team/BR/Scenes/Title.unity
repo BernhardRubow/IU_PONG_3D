@@ -792,8 +792,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0741ed88688944a9dd03ce5c303226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LeftPlayerScore: 0
+  m_RightPlayerScore: 0
   m_BackgroundMusicAudioSource: {fileID: 1311667857}
   m_ApplauseAudioSource: {fileID: 1311667858}
+  m_WinningScore: 15
+  m_ActivePlayer: 2
 --- !u!4 &1311667856
 Transform:
   m_ObjectHideFlags: 0

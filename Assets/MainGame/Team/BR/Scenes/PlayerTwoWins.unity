@@ -561,7 +561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Left Player
+  m_text: 'Right Player
 
     wins'
   m_isRightToLeft: 0
@@ -928,6 +928,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0741ed88688944a9dd03ce5c303226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_LeftPlayerScore: 0
+  m_RightPlayerScore: 0
+  m_BackgroundMusicAudioSource: {fileID: 0}
+  m_ApplauseAudioSource: {fileID: 0}
+  m_WinningScore: 15
+  m_ActivePlayer: 0
 --- !u!4 &1311667856
 Transform:
   m_ObjectHideFlags: 0
