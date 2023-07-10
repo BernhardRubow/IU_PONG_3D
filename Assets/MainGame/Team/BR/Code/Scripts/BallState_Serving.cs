@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Assets.MainGame.Team.BR.Code.Classes.MessageBus;
 using Assets.MainGame.Team.BR.Code.Enumerations;
 using UnityEngine;
@@ -20,9 +21,20 @@ public class BallState_Serving : MonoBehaviour
         
         m_Paddles = GameObject.FindGameObjectsWithTag("paddle");
 
-        m_ServingPaddleTransform = Controller_GlobalGameManager.Instance.m_ActivePlayer == PlayerLocations.Left
-            ? m_Paddles.Single(x => x.transform.position.x < 0).transform
-            : m_Paddles.Single(x => x.transform.position.x > 0).transform;
+        try
+        {
+            m_ServingPaddleTransform = Controller_GlobalGameManager.Instance.m_ActivePlayer == PlayerLocations.Left
+                ? m_Paddles.Single(x => x.transform.position.x < 0).transform
+                : m_Paddles.Single(x => x.transform.position.x > 0).transform;
+        }
+        catch (Exception e)
+        {
+            m_ServingPaddleTransform = m_Paddles.Single(x => x.transform.position.x < 0).transform;
+        }
+
+
+            
+        
 
         m_OffsetFactor = Math.Sign(m_ServingPaddleTransform.position.x);
 

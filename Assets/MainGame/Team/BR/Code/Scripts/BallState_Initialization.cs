@@ -6,8 +6,10 @@ using UnityEngine;
 
 public class BallState_Initialization : MonoBehaviour
 {
-    void OnEnable()
+    void Start()
     {
+        
+
         // RandomPlayerServes
         var activePlayer = Random.value < 0.5 ? PlayerLocations.Left : PlayerLocations.Right;
         var msg = new Message_ActivePlayerChanged
@@ -22,10 +24,6 @@ public class BallState_Initialization : MonoBehaviour
         nextState.enabled = true;
 
     }
-
-    void OnDisable()
-    {
-
-    }
+    
 
 }

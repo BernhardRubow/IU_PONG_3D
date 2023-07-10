@@ -796,7 +796,7 @@ MonoBehaviour:
   m_RightPlayerScore: 0
   m_BackgroundMusicAudioSource: {fileID: 1311667857}
   m_ApplauseAudioSource: {fileID: 1311667858}
-  m_WinningScore: 15
+  m_WinningScore: 2
   m_ActivePlayer: 2
 --- !u!4 &1311667856
 Transform:
